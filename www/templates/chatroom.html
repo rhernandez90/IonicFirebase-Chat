@@ -1,14 +1,34 @@
-<ion-view view-title="Chat Room">
-  <ion-content>
-    <a class="item item-icon-left" ng-click="addMessage()">
+<ion-view on-swipe-down="loadGroups()">
+
+
+  <ion-content ng-init="loadGroups()">
+    <div class="bar bar-header bar-calm">
+      <h1 class="title">Grupos</h1>
+    </div>
+    <br><br>
+
+    <!--a class="item item-icon-left" ng-click="addGroup()">
       <i class="icon ion-plus-round"></i>
     </a>
 
-    <label class="item item-input" >
-      <i class="icon ion-search placeholder-icon"></i>
-      <input type="text" placeholder="Message" ng-model="message">
-      <i class="icon ion-check" style="margin-right: 50px;"></i>
-    </label>
+    <a class="item item-icon-left" ng-click="loadGroups()">
+      <i class="icon ion-load-a"></i>
+    </a-->
+
+
+    <div class="item">
+      <input class="button button-dark" type="button" ng-click="addGroup(groupName)" value="Add Group">
+      <input type="text" placeholder="Group Name" ng-model="groupName">
+    </div>
+
+    <div class="list">
+      <h3>Groups:</h3>
+      <a href="#" class="item" ng-repeat="(key,value) in groupList">
+        {{value.group}}
+      </a>
+    </div>
+
+
   </ion-content>
 </ion-view>
 

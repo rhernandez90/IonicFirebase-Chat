@@ -55,12 +55,13 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('CharRoomCtrl',function($scope,$stateParams){
+.controller('ChatRoomCtrl', function($scope,$q){
+  console.log("controller iniciado");
 
 
   var config = {
     apiKey: "AIzaSyCfdmZLFi1WT4Z9MksK94TbwKWoxu6x71U",
-    //authDomain: "chat-b3795.firebaseapp.com",
+    authDomain: "chat-b3795.firebaseapp.com",
     databaseURL: "https://chat-b3795.firebaseio.com",
     storageBucket: "chat-b3795.appspot.com",
   };
@@ -68,19 +69,32 @@ angular.module('starter.controllers', [])
 
 
 
-
-  $scope.message = "";
-
-  $scope.addMessage = function(){
-    alert("vamo a guardar");
+  $scope.groupName = "";
 
 
+  var fireDB = firebase.database();
 
-    var newPostKey = firebase.database().ref().child('posts').push().key;
+  $scope.addGroup = function(grupo){
+    console.log(grupo);
+    var newPostKey = fireDB.ref('groups').push().key;
     var updates = {};
-    updates['/posts/' + newPostKey] = {user:"Roberto",messge:$scope.message};
-    var post =  firebase.database().ref().update(updates);
-    console.log(post);
+    updates[newPostKey] = {group:grupo};
+    var defered = $q.defer();
+    var post =  fireDB.ref('groups').update(updates).then(function(res){
+      console.log(res);
+
+      defered.resolve(res);
+    });
+
+    $scope.loadGroups();
+  }
+
+  $scope.loadGroups = function(){
+    var groups = fireDB.ref('groups').on("value",function(snapshot){
+      console.log("loading  groups");
+      console.log(snapshot.val());
+      $scope.groupList = snapshot.val();
+    });
 
   }
 
