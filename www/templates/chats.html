@@ -8,34 +8,37 @@
     <br><br>
 
 
-    <div class="item">
-      <input type="text" placeholder="Nick" ng-model="nick">
+
+    <div class="list card">
+
+      <a class="item item-avatar"  ng-repeat="chat in chatList">
+        <!--pre>{{chat | json}} </pre-->
+        <img src="https://cdn4.iconfinder.com/data/icons/mayssam/512/user-128.png">
+        <h2 ng-bind="chat.nick"></h2>
+        <p ng-bind="chat.message"></p>
+      </a>
     </div>
 
 
+    
 
-    <div class="list">
+
+
+    <div class="bar-balanced">
 
       <div class="item item-input-inset">
+         <input type="text" placeholder="Nick" ng-model="nick" >
         <label class="item-input-wrapper">
           <input type="text" placeholder="Message" ng-model="message">
         </label>
-        <button class="button button-assertive button-small" ng-click="send()">
+        <button class="button button-small" ng-click="send()" value="Submit">
           <span class="icon ion-android-send"></span>
         </button>
       </div>
 
     </div>
-
-    <div class="list card">
-
-      <div class="item"  ng-repeat="chat in chatList">
-        <!--pre>{{chat | json}} </pre-->
-        <h3 ng-bind="chat.nick"></h3>
-        <p ng-bind="chat.message"></p>
-      </div>
-    </div>
-
   </ion-content>
 </ion-view>
+
+
 
