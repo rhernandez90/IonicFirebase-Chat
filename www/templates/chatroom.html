@@ -23,7 +23,7 @@
 
     <div class="list">
       <h3>Groups:</h3>
-      <a href="#" class="item" ng-repeat="(key,value) in groupList">
+      <a class="item"   ng-repeat="(key,value) in groupList"  href="#/app/chats{{key}}">
         {{value.group}}
       </a>
     </div>

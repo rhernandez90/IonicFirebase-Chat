@@ -1,0 +1,41 @@
+<ion-view >
+
+
+  <ion-content ng-controller="chatCtrl">
+    <div class="bar bar-header bar-calm">
+      <h1 class="title">Chat</h1>
+    </div>
+    <br><br>
+
+
+    <div class="item">
+      <input type="text" placeholder="Nick" ng-model="nick">
+    </div>
+
+
+
+    <div class="list">
+
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="Message" ng-model="message">
+        </label>
+        <button class="button button-assertive button-small" ng-click="send()">
+          <span class="icon ion-android-send"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="list card">
+
+      <div class="item"  ng-repeat="chat in chatList">
+        <!--pre>{{chat | json}} </pre-->
+        <h3 ng-bind="chat.nick"></h3>
+        <p ng-bind="chat.message"></p>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
+

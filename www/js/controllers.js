@@ -55,43 +55,32 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ChatRoomCtrl', function($scope,$q){
+.controller('ChatRoomCtrl', function($scope,$q,fireService){
   console.log("controller iniciado");
 
 
-  var config = {
-    apiKey: "AIzaSyCfdmZLFi1WT4Z9MksK94TbwKWoxu6x71U",
-    authDomain: "chat-b3795.firebaseapp.com",
-    databaseURL: "https://chat-b3795.firebaseio.com",
-    storageBucket: "chat-b3795.appspot.com",
-  };
-  firebase.initializeApp(config);
 
-
-
-  $scope.groupName = "";
-
-
-  var fireDB = firebase.database();
+  var fireDB = fireService.fireDB;
 
   $scope.addGroup = function(grupo){
     console.log(grupo);
     var newPostKey = fireDB.ref('groups').push().key;
     var updates = {};
     updates[newPostKey] = {group:grupo};
-    var defered = $q.defer();
+
     var post =  fireDB.ref('groups').update(updates).then(function(res){
       console.log(res);
 
-      defered.resolve(res);
     });
 
     $scope.loadGroups();
   }
 
+
+
+
   $scope.loadGroups = function(){
     var groups = fireDB.ref('groups').on("value",function(snapshot){
-      console.log("loading  groups");
       console.log(snapshot.val());
       $scope.groupList = snapshot.val();
     });
@@ -101,4 +90,35 @@ angular.module('starter.controllers', [])
 
 
 
-});
+})
+  .controller('chatCtrl',function($scope,$state,$stateParams,fireService){
+    var fireDB = fireService.fireDB;
+    $scope.chatList = {};
+
+
+    fireDB.ref('groups/'+$stateParams.id+"/chat").on('value', function(data) {
+      console.log(data.val());
+      $scope.chatList = data.val();
+    });
+
+
+    $scope.send = function(){
+      var msj = {
+        nick:$scope.nick,
+        message:$scope.message
+      }
+      console.log(msj);
+      fireDB.ref('groups/'+$stateParams.id+"/chat").push().set(msj);
+
+      $scope.message = '';
+
+    }
+
+
+
+
+
+
+
+  })
+;
